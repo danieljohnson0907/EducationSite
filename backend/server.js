@@ -35,9 +35,10 @@ if (!fs.existsSync(blogImagePath)) {
 // ===============================
 
 const allowedOrigins = [
-  "https://goal-mindset.vercel.app",
-  "https://ed-frontend-elmy.vercel.app",
-  "http://localhost:3000",
+[
+  "https://your-netlify-site-name.netlify.app",
+  "http://localhost:3000"
+]
 ];
 
 const corsOptions = {

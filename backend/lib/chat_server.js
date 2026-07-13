@@ -8,9 +8,8 @@ module.exports.listen = function (server) {
   io = new Server(server, {
     cors: {
       origin: [
-        "https://goal-mindset.vercel.app",
-        "https://ed-frontend-elmy.vercel.app",
-        "http://localhost:3000",
+        "https://your-netlify-site-name.netlify.app",
+        "http://localhost:3000"
       ],
       methods: ["GET", "POST"],
       credentials: true,
