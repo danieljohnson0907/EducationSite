@@ -13,7 +13,7 @@ import {
 
 const BACKEND_URL =
     process.env.REACT_APP_BACKEND_URL ||
-    'https://ed-mybackend-production.up.railway.app';
+    'https://educationsite-production.up.railway.app';
 
 function Item(props) {
 

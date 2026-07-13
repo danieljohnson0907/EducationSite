@@ -7,7 +7,7 @@ export const getOrdersData = (email, status, type) => dispatch => {
     dispatch({
         type: GET_ORDERS_DATA
     })
-    axios.post('https://ed-mybackend-production.up.railway.app/api/order/get-orders', {email, status, type})
+    axios.post('https://educationsite-production.up.railway.app/api/order/get-orders', {email, status, type})
         .then(res => {
             dispatch({
                 type: GET_ORDERS_DATA,

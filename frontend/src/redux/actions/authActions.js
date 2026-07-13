@@ -1,6 +1,5 @@
 import axios from 'axios';
 import { GET_ERRORS, SET_CURRENT_USER } from "../types";
-
 import {setAuthToken} from '../../utils/setAuthToken'
 
 import jwt_decode from 'jwt-decode';
@@ -8,7 +7,7 @@ import { notification } from 'antd';
 
 
 export const registerUser = (data, history) => dispatch=> { 
-    axios.post('https://ed-mybackend-production.up.railway.app/api/users/auth/register', data)
+    axios.post('https://educationsite-production.up.railway.app//api/users/auth/register', data)
         .then(res => {
             const args = {
                 message: "Success",
@@ -43,7 +42,7 @@ export const registerUser = (data, history) => dispatch=> {
 }
 
 export const loginUser = (userData) => dispatch => {
-    axios.post('https://ed-mybackend-production.up.railway.app/api/users/auth/login', userData)
+    axios.post('https://educationsite-production.up.railway.app/api/users/auth/login', userData)
         .then(res => {
             const args = {
                 message: "Success",
@@ -85,7 +84,7 @@ export const loginUser = (userData) => dispatch => {
 }
 export const orderUser = (userData, history) => dispatch=> {
     console.log(userData)
-    axios.post('https://ed-mybackend-production.up.railway.app/api/order',userData)
+    axios.post('https://educationsite-production.up.railway.app/api/order',userData)
         .then(res => {
             const args = {
                 message: "Success",

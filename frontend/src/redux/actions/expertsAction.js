@@ -6,7 +6,7 @@ export const getExpertsSearch = (params) => dispatch => {
     dispatch({
         type: SET_EXPERTS_SEARCH_LOADING
     })
-    axios.post('https://ed-mybackend-production.up.railway.app/api/experts/get-search', params)
+    axios.post('https://educationsite-production.up.railway.app/api/experts/get-search', params)
         .then(res => {
             dispatch({
                 type: GET_EXPERTS_SEARCH,
@@ -26,7 +26,7 @@ export const getExpertsSearch = (params) => dispatch => {
         })
 }
 export const ToExpertUser = (userData, history) => dispatch =>{
-    axios.post('https://ed-mybackend-production.up.railway.app/api/profile/to_expert',userData)
+    axios.post('https://educationsite-production.up.railway.app/api/profile/to_expert',userData)
     .then(res=>{
         const args = {
             message:"Success",

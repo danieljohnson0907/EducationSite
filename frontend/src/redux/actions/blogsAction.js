@@ -2,7 +2,7 @@ import axios from 'axios';
 import { GET_BLOGS, GET_BLOG_COMMENTS } from '../types';
 import { notification } from 'antd';
 
-const API_BASE_URL = process.env.REACT_APP_API_BASE_URL || 'https://ed-mybackend-production.up.railway.app/api';
+const API_BASE_URL = process.env.REACT_APP_API_BASE_URL || 'https://educationsite-production.up.railway.app/api';
 
 export const getBlogs = () => dispatch => {
     axios.get(`${API_BASE_URL}/blogs/get-blogs`, {})

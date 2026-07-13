@@ -11,7 +11,7 @@ export const getInformation = (email) => dispatch => {
         type: EDIT_PROFILE_INFORMATION_LOADING
     })
     console.log(email)
-    axios.post('https://ed-mybackend-production.up.railway.app/api/profile/get-information', {email})
+    axios.post('https://educationsite-production.up.railway.app/api/profile/get-information', {email})
         .then(res => {
             dispatch({
                 type: GET_PROFILE_INFORMATION,
@@ -27,7 +27,7 @@ export const editInformation = (user_data, email) => dispatch => {
     dispatch({
         type: EDIT_PROFILE_INFORMATION_LOADING
     })
-    return axios.post('https://ed-mybackend-production.up.railway.app/api/profile/edit-information', {
+    return axios.post('https://educationsite-production.up.railway.app/api/profile/edit-information', {
         email,
         user_data
     })
@@ -52,7 +52,7 @@ export const chargeMoney = (balance) =>dispatch =>{
     dispatch({
         type: SET_PROFILE_LOADING
     })
-    axios.post('https://ed-mybackend-production.up.railway.app/api/profile/charge-money', {balance})
+    axios.post('https://educationsite-production.up.railway.app/api/profile/charge-money', {balance})
     .then(res => {
         console.log(res.data)
         if(res.data.success){

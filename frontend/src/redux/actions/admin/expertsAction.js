@@ -4,7 +4,7 @@ import { notification } from 'antd';
 let searchForm = {};
 export const getExperts = (data) => dispatch => {
     searchForm = data;
-    axios.post('https://ed-mybackend-production.up.railway.app/api/admin/experts', { data })
+    axios.post('https://educationsite-production.up.railway.app/api/admin/experts', { data })
         .then(res => {
             dispatch({
                 type: ADMIN_GET_EXPERTS,
@@ -17,7 +17,7 @@ export const getExperts = (data) => dispatch => {
 }
 
 export const allowExpert = (email) => dispatch => {
-    axios.post('https://ed-mybackend-production.up.railway.app/api/admin/experts/allow-expert', { email })
+    axios.post('https://educationsite-production.up.railway.app/api/admin/experts/allow-expert', { email })
         .then(res => {
             if (res.result === "failed") {
                 notification.error({
@@ -29,7 +29,7 @@ export const allowExpert = (email) => dispatch => {
                 });
                 getExperts(searchForm);
             }
-            axios.post('https://ed-mybackend-production.up.railway.app/api/admin/experts', { data:searchForm })
+            axios.post('https://educationsite-production.up.railway.app/api/admin/experts', { data:searchForm })
                 .then(res => {
                     dispatch({
                         type: ADMIN_GET_EXPERTS,

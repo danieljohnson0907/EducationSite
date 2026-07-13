@@ -4,7 +4,7 @@ export const getHomeStates = () => dispatch => {
     dispatch({
         type: SET_HOME_STATES_LOADING
     })
-    axios.get('https://ed-mybackend-production.up.railway.app/api/home/get-states', {})
+    axios.get('https://educationsite-production.up.railway.app/api/home/get-states', {})
         .then(res => {
             dispatch({
                 type: GET_HOME_STATES,
