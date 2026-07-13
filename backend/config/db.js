@@ -1,1 +1,1 @@
-export const dbpath = ""
+export const dbpath = process.env.MONGO_URI;
