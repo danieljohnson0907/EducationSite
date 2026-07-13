@@ -7,7 +7,7 @@ import { notification } from 'antd';
 
 
 export const registerUser = (data, history) => dispatch=> { 
-    axios.post('https://educationsite-production.up.railway.app//api/users/auth/register', data)
+    axios.post('https://educationsite-production.up.railway.app/api/users/auth/register', data)
         .then(res => {
             const args = {
                 message: "Success",
