@@ -15,13 +15,10 @@ const { DB_URL, DB_NAME, PORT } = CONST;
 // Upload folders
 // ===============================
 
-// Old upload folder
 const uploadPath = path.join(process.cwd(), "public", "img", "uploads");
 
-// Blog image folder
 const blogImagePath = path.join(process.cwd(), "public", "assets", "img", "blogs");
 
-// Make sure folders exist
 if (!fs.existsSync(uploadPath)) {
   fs.mkdirSync(uploadPath, { recursive: true });
 }
@@ -30,60 +27,90 @@ if (!fs.existsSync(blogImagePath)) {
   fs.mkdirSync(blogImagePath, { recursive: true });
 }
 
+
 // ===============================
-// CORS
+// CORS FIX
 // ===============================
 
 const allowedOrigins = [
-[
-  "https://your-netlify-site-name.netlify.app",
+  "https://beautiful-melba-7866ce.netlify.app",
   "http://localhost:3000"
-]
 ];
 
 const corsOptions = {
   origin: function (origin, callback) {
+
     if (!origin || allowedOrigins.includes(origin)) {
-      return callback(null, true);
+      callback(null, true);
+    } else {
+      console.log("Blocked by CORS:", origin);
+      callback(null, false);
     }
 
-    console.log("Blocked by CORS:", origin);
-    return callback(null, false);
   },
   credentials: true,
-  methods: ["GET", "POST", "PUT", "PATCH", "DELETE", "OPTIONS"],
-  allowedHeaders: ["Content-Type", "Authorization"],
+  methods: [
+    "GET",
+    "POST",
+    "PUT",
+    "PATCH",
+    "DELETE",
+    "OPTIONS"
+  ],
+  allowedHeaders: [
+    "Content-Type",
+    "Authorization"
+  ]
 };
 
 app.use(cors(corsOptions));
-app.options(/.*/, cors(corsOptions));
+app.options("*", cors(corsOptions));
+
 
 // ===============================
 // Body parser
-// Important for base64 image upload
 // ===============================
 
-app.use(bodyParser.urlencoded({ extended: true, limit: "25mb" }));
-app.use(bodyParser.json({ limit: "25mb" }));
+app.use(bodyParser.urlencoded({
+  extended: true,
+  limit: "25mb"
+}));
+
+app.use(bodyParser.json({
+  limit: "25mb"
+}));
+
 
 // ===============================
 // Static image routes
 // ===============================
 
-// Old upload support
 app.use("/uploads", express.static(uploadPath));
-app.use("/public", express.static(path.join(process.cwd(), "public")));
 
-// Blog image support
-app.use("/assets/img/blogs", express.static(blogImagePath));
-app.use("/assets", express.static(path.join(process.cwd(), "public", "assets")));
+app.use(
+  "/public",
+  express.static(path.join(process.cwd(), "public"))
+);
+
+app.use(
+  "/assets/img/blogs",
+  express.static(blogImagePath)
+);
+
+app.use(
+  "/assets",
+  express.static(path.join(process.cwd(), "public", "assets"))
+);
+
 
 // ===============================
 // Passport
 // ===============================
 
 require("./src/config/passport")(passport);
+
 app.use(passport.initialize());
+
 
 // ===============================
 // Test route
@@ -92,16 +119,19 @@ app.use(passport.initialize());
 app.get("/", (req, res) => {
   res.json({
     status: "success",
-    message: "Backend server is running",
+    message: "Backend server is running"
   });
 });
+
 
 // ===============================
 // API routes
 // ===============================
 
 const routes = require("./src/router");
+
 app.use("/api", routes);
+
 
 // ===============================
 // MongoDB connection
@@ -119,16 +149,22 @@ mongoose
     console.error(err);
   });
 
+
 // ===============================
 // Chat server
 // ===============================
 
 const chatServer = require("./lib/chat_server");
+
 const server = require("http").createServer(app);
 
 chatServer.listen(server);
 
-// Railway needs process.env.PORT
+
+// ===============================
+// Railway PORT
+// ===============================
+
 const Port = process.env.PORT || PORT || 5000;
 
 server.listen(Port, () => {
