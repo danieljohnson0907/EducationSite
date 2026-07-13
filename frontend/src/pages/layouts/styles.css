@@ -1,0 +1,376 @@
+/* ═══════════════════════════════════════════
+   GoalMindset — Header
+═══════════════════════════════════════════ */
+
+:root {
+    --gm-orange:     #FF6B35;
+    --gm-orange-dk:  #e55a25;
+    --gm-navy:       #1A1F36;
+    --gm-text:       #3D3D3D;
+    --gm-muted:      #6B7280;
+    --gm-border:     #E5E7EB;
+    --gm-white:      #ffffff;
+    --gm-header-h:   70px;
+}
+
+/* ── Shell ── */
+.gm-header {
+    position: sticky;
+    top: 0;
+    z-index: 1000;
+    background: var(--gm-white);
+    border-bottom: 1px solid var(--gm-border);
+    box-shadow: 0 1px 8px rgba(0, 0, 0, 0.06);
+}
+
+.gm-header__inner {
+    max-width: 1200px;
+    margin: 0 auto;
+    padding: 0 24px;
+    height: var(--gm-header-h);
+    display: flex;
+    align-items: center;
+    gap: 16px;
+}
+
+/* ── Logo (icon only) ── */
+.gm-header__logo {
+    display: flex;
+    align-items: center;
+    flex-shrink: 0;
+    text-decoration: none;
+}
+
+.gm-header__logo .ant-image img {
+    width: 170px !important;
+    height: 110px !important;
+    object-fit: contain;
+}
+
+/* ── Spacer: pushes nav + avatar to the far right ── */
+.gm-header__spacer {
+    flex: 1;
+}
+
+/* ── Desktop Nav — sits just left of the avatar ── */
+.gm-header__nav {
+    display: flex;
+    align-items: center;
+    gap: 4px;
+}
+
+.gm-nav-item {
+    position: relative;
+    padding: 6px 14px;
+    font-size: 15px;
+    font-weight: 500;
+    color: var(--gm-text);
+    text-decoration: none;
+    border-radius: 6px;
+    transition: color 0.2s;
+    white-space: nowrap;
+}
+
+.gm-nav-item::after {
+    content: '';
+    position: absolute;
+    bottom: -2px;
+    left: 14px;
+    right: 14px;
+    height: 2.5px;
+    border-radius: 2px;
+    background: var(--gm-orange);
+    transform: scaleX(0);
+    transition: transform 0.2s ease;
+}
+
+.gm-nav-item:hover {
+    color: var(--gm-orange);
+}
+
+.gm-nav-item--active {
+    color: var(--gm-orange);
+    font-weight: 600;
+}
+
+.gm-nav-item--active::after {
+    transform: scaleX(1);
+}
+
+/* ── Right: avatar button ── */
+.gm-header__right {
+    flex-shrink: 0;
+    display: flex !important;
+    align-items: center;
+}
+
+.gm-header__avatar-btn {
+    display: flex;
+    align-items: center;
+    gap: 6px;
+    background: none;
+    border: none;
+    cursor: pointer;
+    padding: 4px;
+    border-radius: 50px;
+    transition: background 0.15s;
+}
+
+.gm-header__avatar-btn:hover {
+    background: #f5f5f5;
+}
+
+.gm-header__avatar {
+    border: 2px solid var(--gm-border);
+}
+
+.gm-header__avatar--guest {
+    background: var(--gm-navy) !important;
+    color: #fff !important;
+}
+
+.gm-header__chevron {
+    color: var(--gm-muted);
+    flex-shrink: 0;
+}
+
+/* ── Mobile hamburger ── */
+.gm-header__hamburger {
+    display: none;
+    flex-direction: column;
+    gap: 5px;
+    background: none;
+    border: none;
+    cursor: pointer;
+    padding: 6px;
+}
+
+.gm-header__hamburger span {
+    display: block;
+    width: 22px;
+    height: 2px;
+    background: var(--gm-navy);
+    border-radius: 2px;
+    transition: transform 0.25s, opacity 0.25s;
+}
+
+.gm-header__hamburger.open span:nth-child(1) { transform: translateY(7px) rotate(45deg); }
+.gm-header__hamburger.open span:nth-child(2) { opacity: 0; }
+.gm-header__hamburger.open span:nth-child(3) { transform: translateY(-7px) rotate(-45deg); }
+
+/* ── Mobile Nav Drawer ── */
+.gm-header__mobile-nav {
+    display: none;
+    flex-direction: column;
+    padding: 12px 24px 20px;
+    border-top: 1px solid var(--gm-border);
+    background: var(--gm-white);
+    gap: 2px;
+}
+
+.gm-header__mobile-nav .gm-nav-item {
+    padding: 10px 8px;
+    font-size: 16px;
+    border-radius: 8px;
+}
+
+.gm-header__mobile-nav .gm-nav-item::after {
+    display: none;
+}
+
+.gm-header__mobile-nav .gm-nav-item--active {
+    background: #FFF4EF;
+}
+
+.gm-header__mobile-auth {
+    display: flex;
+    gap: 10px;
+    margin-top: 12px;
+    padding-top: 12px;
+    border-top: 1px solid var(--gm-border);
+}
+
+/* ── Buttons ── */
+.gm-btn {
+    flex: 1;
+    padding: 10px 20px;
+    border-radius: 8px;
+    font-size: 15px;
+    font-weight: 600;
+    cursor: pointer;
+    border: none;
+    transition: all 0.2s;
+}
+
+.gm-btn--primary {
+    background: var(--gm-orange);
+    color: #fff;
+}
+
+.gm-btn--primary:hover { background: var(--gm-orange-dk); }
+
+.gm-btn--outline {
+    background: transparent;
+    border: 1.5px solid var(--gm-orange);
+    color: var(--gm-orange);
+}
+
+.gm-btn--outline:hover { background: #FFF4EF; }
+
+/* ── Responsive ── */
+@media (max-width: 768px) {
+    .gm-header__nav,
+    .gm-header__right {
+        display: none !important;
+    }
+
+    .gm-header__hamburger {
+        display: flex;
+    }
+
+    .gm-header__mobile-nav {
+        display: flex;
+    }
+}
+
+/* ── Ant Design dropdown overrides ── */
+.gm-dropdown-menu {
+    border-radius: 10px !important;
+    box-shadow: 0 8px 24px rgba(0,0,0,0.12) !important;
+    padding: 6px !important;
+    min-width: 150px !important;
+}
+
+.gm-dropdown-menu .ant-dropdown-menu-item {
+    border-radius: 6px !important;
+    font-size: 14px !important;
+    color: var(--gm-text) !important;
+}
+
+.gm-dropdown-menu .ant-dropdown-menu-item:hover {
+    background: #FFF4EF !important;
+    color: var(--gm-orange) !important;
+}
+
+
+
+
+
+main {
+    margin-top: 20px;
+}
+
+.ant-layout-footer {
+    margin-top: 20px;
+}
+.header1{
+    background-color: white !important;
+}
+
+.chat-widgets {
+    position: fixed;
+    right: 32px;
+    bottom: 102px;
+    z-index: 2147483640;
+    display: flex;
+    flex-direction: column;
+    cursor: pointer;
+    color: #000;
+    background-color: #fff;
+    box-shadow: 0 3px 6px -4px #0000001f, 0 6px 16px #00000014, 0 9px 28px 8px #0000000d;
+    transition: color .3s;
+    border-radius: 100%;
+}
+
+.chat-ui {
+    width: 400px;
+    height: 450px;
+}
+.chat-header{
+    width: 100%;
+    height: 60px;
+    background-color: #000;
+}
+.chat-header-symbol{
+    width: 60px;
+    height: 20px;
+    background-color: gray;
+    margin-top: 20px;
+    border-radius: 10px ;
+}
+.chat-header-last{
+    width: 100%;
+    color: white;
+    margin-top: 20px;
+}
+.chat-icon-padding{
+    padding-right: 5px;
+    color: gray;
+}
+.chat-body{
+    height: 310px;
+}
+.chat-foot-part{
+    width: 100%;
+    height: 80px;
+    background-color: #242425;
+}
+.typing-body-part{
+    margin: 15px 10px 15px 10px;
+    width: 100%;
+    background-color: gray;
+    border-radius: 10px;
+}
+.typing-part{
+    margin: 7px 5px 5px 5px;
+    width: 94%;
+    height: 35px;
+    background-color: gray;
+    border: none;
+}
+.information-form{
+    width: 70%;
+    padding-top: 100px;
+}
+.information-img{
+    background-image: url("../profile/profileImg.jpg");
+    height: 500px;
+    background-repeat: no-repeat;
+    
+}
+
+.lx-text{
+    font-size: 26px;
+}
+.l-text {
+    font-size: 20px;
+}
+
+.m-text {
+    font-size: 16px;
+}
+
+.d-text {
+    font-size: 12px;
+}
+.s-text {
+    font-size: 10px;
+}
+@media screen and (max-width: 768px) {
+    .information-form {
+        width: 100%;
+    }
+    .l-text{
+        font-size: 16px;
+    }
+}
+@media screen and (max-width: 528px) {
+    .information-form {
+        width: 100%;
+    }
+    .l-text{
+        font-size: 12px;
+    }
+}
+
+

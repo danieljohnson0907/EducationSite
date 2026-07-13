@@ -1,0 +1,132 @@
+/*
+This is global style for whole platform.
+*/
+
+body {
+	background-color: rgb(255, 255, 255) !important;
+}
+.ant-layout {
+	background-color: transparent !important;
+} 
+
+/* menu */
+.header {
+	border-bottom: 1px solid rgb(83, 80, 80) !important;
+}
+.header .ant-menu-horizontal {
+	border-bottom: none;
+}
+/* button */
+
+.ant-btn-primary {
+	border-color: tomato rgb(175, 43, 19) rgb(124, 19, 0);
+	background-color: tomato !important;
+	text-shadow: 0 -1px 0 rgba(231, 132, 132, 0.25);
+}
+
+/*header and container*/
+.header .menu-item {
+	padding: 10px;
+	color: black;
+}
+.header .selected {
+	border-radius: 5px;
+	background: tomato;
+}
+
+.header .menu-item:hover {
+	border-radius: 5px;
+	background: tomato;
+	color: white;
+}
+.fixed-layout {
+	overflow-y: scroll;
+}
+.full-width {
+	width: 100vw !important;
+	padding-right: 0px !important;
+	padding-left: 0px !important;
+	height: 100% !important;
+}
+
+.layout-container,
+.header-container {
+	width: 1400px;
+	padding-right: 15px;
+	padding-left: 15px;
+	margin-right: auto;
+	margin-left: auto;
+}
+.layout-container {
+	padding-top: 15px;
+	padding-bottom: 15px;
+	flex:1;
+}	
+
+.header {
+	position: relative;
+	z-index: 10;
+	max-width: 100%;
+}
+
+.header-container {	
+	display: flex;
+	justify-content: space-between;
+}
+
+/* Default font color & background color */
+
+/* Text Size */
+.t-small {
+	font-size: 10px;
+}
+
+.t-normal {
+	font-size: 14px;
+}
+
+.t-title {
+	font-size: 18px;
+}
+
+.t-large {
+	font-size: 24px;
+}
+
+@media screen and (max-width: 1500px) {
+
+	.layout-container,
+	.header-container {
+		width: 1400px;
+	}
+}
+
+@media screen and (max-width: 1200px) {
+
+	.layout-container,
+	.header-container {
+		width: 970px;
+	}
+}
+
+@media screen and (max-width: 768px) {
+	.layout-container,
+	.header-container {
+		width: 100%;
+	}
+	.t-small {
+		font-size: 8px;
+	}
+	
+	.t-normal {
+		font-size: 12px;
+	}
+	
+	.t-title {
+		font-size: 15px;
+	}
+	
+	.t-large {
+		font-size: 20px;
+	}
+}

@@ -1,0 +1,626 @@
+slide.js
+import React from 'react';
+import { Link } from 'react-router-dom';
+import { Avatar } from 'antd';
+import { RocketOutlined, TeamOutlined } from '@ant-design/icons';
+
+export default function Slide() {
+    return (
+        <section className="gm-hero">
+            {/* ── Left: content ── */}
+            <div className="gm-hero__content">
+                <span className="gm-hero__eyebrow">Your Success, Our Mission</span>
+
+                <h1 className="gm-hero__title">
+                    Pass Your Exams<br />
+                    With <span>Confidence</span>
+                </h1>
+
+                <p className="gm-hero__desc">
+                    Expert guidance, study resources, and academic support
+                    designed to help students achieve their academic goals.
+                </p>
+
+                <div className="gm-hero__actions">
+                    <Link to="/experts" className="gm-hero__btn-primary">
+                        <RocketOutlined /> Get Started
+                    </Link>
+                    <Link to="/experts" className="gm-hero__btn-outline">
+                        <TeamOutlined /> Find Experts
+                    </Link>
+                </div>
+
+                {/* <div className="gm-hero__trust">
+                    <div className="gm-hero__trust-avatars">
+                        {[1,2,3,4,5].map(i => (
+                            <Avatar key={i} size={32} style={{ background: '#FF6B35', fontSize: 12 }}>
+                                {String.fromCharCode(64 + i)}
+                            </Avatar>
+                        ))}
+                    </div>
+                    <span><strong>2,000+</strong> Students Trust GoalMindset</span>
+                </div> */}
+            </div>
+
+            {/* ── Right: image ── */}
+            <div className="gm-hero__image">
+                <div className="gm-hero__image-blob"></div>
+
+                <img
+                    src="/assets/img/hero.png"
+                    alt="Students studying together"
+                />
+            </div>
+            
+        </section>
+    );
+}
+
+states.js
+import React from 'react';
+import { TeamOutlined, SafetyOutlined, StarOutlined, UserOutlined } from '@ant-design/icons';
+ 
+export default function States({ count, average_review }) {
+    const stats = [
+        {
+            icon: <TeamOutlined />,
+            colorClass: 'gm-stats__icon--orange',
+            value: count.student,
+            label: 'Students Supported',
+        },
+        {
+            icon: <SafetyOutlined />,
+            colorClass: 'gm-stats__icon--green',
+            value: '98%',
+            label: 'Success Rate',
+        },
+        {
+            icon: <StarOutlined />,
+            colorClass: 'gm-stats__icon--blue',
+            value: average_review || '4.8',
+            label: 'Student Rating',
+        },
+        {
+            icon: <UserOutlined />,
+            colorClass: 'gm-stats__icon--purple',
+            value: count.expert,
+            label: 'Expert Mentors',
+        },
+    ];
+ 
+    return (
+        <div className="gm-stats">
+            {stats.map((item, i) => (
+                <React.Fragment key={i}>
+                    <div className="gm-stats__item">
+                        <div className={`gm-stats__icon ${item.colorClass}`}>
+                            {item.icon}
+                        </div>
+                        <div>
+                            <div className="gm-stats__value">{item.value}</div>
+                            <div className="gm-stats__label">{item.label}</div>
+                        </div>
+                    </div>
+                    {i < stats.length - 1 && <div className="gm-stats__divider" />}
+                </React.Fragment>
+            ))}
+        </div>
+    );
+}
+style.css
+/* ═══════════════════════════════════════════
+   GoalMindset — Home Page Styles
+═══════════════════════════════════════════ */
+
+:root {
+    --gm-orange:    #FF6B35;
+    --gm-orange-dk: #e55a25;
+    --gm-orange-lt: #FFF4EF;
+    --gm-navy:      #1A1F36;
+    --gm-text:      #3D3D3D;
+    --gm-muted:     #6B7280;
+    --gm-border:    #E5E7EB;
+    --gm-bg:        #F9FAFB;
+    --gm-white:     #ffffff;
+}
+
+/* ── Global ── */
+body {
+    font-family: 'Inter', 'Segoe UI', sans-serif;
+    color: var(--gm-text);
+    margin: 0;
+}
+
+/* ════════════════════════
+   HERO / SLIDE SECTION
+════════════════════════ */
+.gm-hero {
+    padding: 10px 24px 60px;
+    max-width: 1200px;
+    margin: 0 auto;
+    display: flex;
+    align-items: center;
+    gap: 48px;
+}
+
+.gm-hero__content {
+    flex: 1;
+}
+
+.gm-hero__eyebrow {
+    display: inline-block;
+    background: var(--gm-orange-lt);
+    color: var(--gm-orange);
+    font-size: 13px;
+    font-weight: 600;
+    padding: 5px 14px;
+    border-radius: 20px;
+    margin-bottom: 20px;
+    letter-spacing: 0.3px;
+}
+
+.gm-hero__title {
+    font-size: 48px;
+    font-weight: 800;
+    line-height: 1.15;
+    color: var(--gm-navy);
+    margin: 0 0 18px;
+}
+
+.gm-hero__title span {
+    color: var(--gm-orange);
+}
+
+.gm-hero__desc {
+    font-size: 16px;
+    color: var(--gm-muted);
+    line-height: 1.7;
+    margin-bottom: 32px;
+    max-width: 480px;
+}
+
+.gm-hero__actions {
+    display: flex;
+    gap: 14px;
+    flex-wrap: wrap;
+    margin-bottom: 36px;
+}
+
+.gm-hero__btn-primary {
+    background: var(--gm-orange);
+    color: #fff;
+    border: none;
+    padding: 14px 28px;
+    border-radius: 10px;
+    font-size: 15px;
+    font-weight: 600;
+    cursor: pointer;
+    display: flex;
+    align-items: center;
+    gap: 8px;
+    transition: background 0.2s;
+    text-decoration: none;
+}
+
+.gm-hero__btn-primary:hover { background: var(--gm-orange-dk); color: #fff; }
+
+.gm-hero__btn-outline {
+    background: transparent;
+    color: var(--gm-navy);
+    border: 1.5px solid var(--gm-border);
+    padding: 14px 28px;
+    border-radius: 10px;
+    font-size: 15px;
+    font-weight: 600;
+    cursor: pointer;
+    display: flex;
+    align-items: center;
+    gap: 8px;
+    transition: border-color 0.2s;
+    text-decoration: none;
+}
+
+.gm-hero__btn-outline:hover { border-color: var(--gm-orange); color: var(--gm-orange); }
+
+.gm-hero__trust {
+    display: flex;
+    align-items: center;
+    gap: 10px;
+    font-size: 13px;
+    color: var(--gm-muted);
+}
+
+.gm-hero__trust-avatars {
+    display: flex;
+}
+
+.gm-hero__trust-avatars .ant-avatar {
+    border: 2px solid #fff;
+    margin-left: -8px;
+}
+
+.gm-hero__trust-avatars .ant-avatar:first-child { margin-left: 0; }
+
+.gm-hero__trust strong { color: var(--gm-orange); }
+
+.gm-hero__image {
+    flex: 1;
+    position: relative;
+    display: flex;
+    justify-content: center;
+    align-items: center;
+    min-height: 600px;
+    min-height: 450px;
+}
+
+.gm-hero__image img {
+    position: relative;
+    z-index: 2;
+
+    max-width: 650px;
+    width: 100%;
+    height: auto;
+
+    transform: translateY(-20px);
+}
+
+.gm-hero__image-blob {
+    position: absolute;
+
+    width: 600px;
+    height: 600px;
+
+    background: #FFE5D4;
+    border-radius: 50%;
+
+    right: 0;
+    top: 20px;
+
+    z-index: 1;
+}
+
+/* ════════════════════════
+   STATS BAR
+════════════════════════ */
+.gm-stats {
+    background: var(--gm-white);
+    border: 1px solid var(--gm-border);
+    border-radius: 16px;
+    max-width: 1100px;
+    margin: 0 auto 60px;
+    padding: 28px 40px;
+    display: flex;
+    justify-content: space-around;
+    align-items: center;
+    box-shadow: 0 2px 16px rgba(0,0,0,0.05);
+}
+
+.gm-stats__item {
+    text-align: center;
+    display: flex;
+    align-items: center;
+    gap: 14px;
+}
+
+.gm-stats__icon {
+    width: 48px;
+    height: 48px;
+    border-radius: 12px;
+    display: flex;
+    align-items: center;
+    justify-content: center;
+    font-size: 22px;
+    flex-shrink: 0;
+}
+
+.gm-stats__icon--orange { background: var(--gm-orange-lt); color: var(--gm-orange); }
+.gm-stats__icon--green  { background: #ECFDF5; color: #10B981; }
+.gm-stats__icon--blue   { background: #EFF6FF; color: #3B82F6; }
+.gm-stats__icon--purple { background: #F5F3FF; color: #8B5CF6; }
+
+.gm-stats__value {
+    font-size: 26px;
+    font-weight: 800;
+    color: var(--gm-navy);
+    line-height: 1;
+}
+
+.gm-stats__label {
+    font-size: 13px;
+    color: var(--gm-muted);
+    margin-top: 2px;
+}
+
+.gm-stats__divider {
+    width: 1px;
+    height: 48px;
+    background: var(--gm-border);
+}
+
+/* ════════════════════════
+   WHY CHOOSE US / FEATURES
+════════════════════════ */
+.gm-features {
+    background: var(--gm-bg);
+    padding: 64px 24px;
+}
+
+.gm-section-header {
+    text-align: center;
+    margin-bottom: 48px;
+}
+
+.gm-section-header h2 {
+    font-size: 32px;
+    font-weight: 800;
+    color: var(--gm-navy);
+    margin: 0 0 10px;
+}
+
+.gm-section-header p {
+    font-size: 16px;
+    color: var(--gm-muted);
+    margin: 0;
+}
+
+.gm-features__grid {
+    max-width: 1100px;
+    margin: 0 auto;
+    display: grid;
+    grid-template-columns: repeat(4, 1fr);
+    gap: 24px;
+}
+
+.gm-feature-card {
+    background: var(--gm-white);
+    border: 1px solid var(--gm-border);
+    border-radius: 16px;
+    padding: 28px 24px;
+    text-align: center;
+    transition: box-shadow 0.2s, transform 0.2s;
+}
+
+.gm-feature-card:hover {
+    box-shadow: 0 8px 24px rgba(0,0,0,0.08);
+    transform: translateY(-3px);
+}
+
+.gm-feature-card__icon {
+    width: 56px;
+    height: 56px;
+    border-radius: 14px;
+    display: flex;
+    align-items: center;
+    justify-content: center;
+    font-size: 26px;
+    margin: 0 auto 16px;
+}
+
+.gm-feature-card__icon--orange { background: var(--gm-orange-lt); color: var(--gm-orange); }
+.gm-feature-card__icon--green  { background: #ECFDF5; color: #10B981; }
+.gm-feature-card__icon--blue   { background: #EFF6FF; color: #3B82F6; }
+.gm-feature-card__icon--purple { background: #F5F3FF; color: #8B5CF6; }
+
+.gm-feature-card h3 {
+    font-size: 16px;
+    font-weight: 700;
+    color: var(--gm-navy);
+    margin: 0 0 8px;
+}
+
+.gm-feature-card p {
+    font-size: 14px;
+    color: var(--gm-muted);
+    line-height: 1.6;
+    margin: 0;
+}
+
+/* ════════════════════════
+   FEATURED EXPERTS
+════════════════════════ */
+.gm-experts {
+    padding: 64px 24px;
+    max-width: 1200px;
+    margin: 0 auto;
+}
+
+.gm-experts__header {
+    display: flex;
+    justify-content: space-between;
+    align-items: center;
+    margin-bottom: 32px;
+}
+
+.gm-experts__header h2 {
+    font-size: 28px;
+    font-weight: 800;
+    color: var(--gm-navy);
+    margin: 0;
+}
+
+.gm-experts__view-all {
+    color: var(--gm-orange);
+    font-size: 14px;
+    font-weight: 600;
+    text-decoration: none;
+    display: flex;
+    align-items: center;
+    gap: 4px;
+}
+
+.gm-experts__view-all:hover { color: var(--gm-orange-dk); }
+
+.gm-experts__grid {
+    display: grid;
+    grid-template-columns: repeat(3, 1fr);
+    gap: 24px;
+}
+
+.gm-expert-card {
+    border: 1px solid var(--gm-border);
+    border-radius: 16px;
+    padding: 24px;
+    background: var(--gm-white);
+    transition: box-shadow 0.2s;
+}
+
+.gm-expert-card:hover { box-shadow: 0 8px 24px rgba(0,0,0,0.08); }
+
+.gm-expert-card__top {
+    display: flex;
+    align-items: center;
+    gap: 14px;
+    margin-bottom: 20px;
+}
+
+.gm-expert-card__avatar-wrap {
+    position: relative;
+}
+
+.gm-expert-card__avatar-wrap .ant-avatar {
+    width: 56px;
+    height: 56px;
+}
+
+.gm-expert-card__online {
+    position: absolute;
+    bottom: 2px;
+    right: 2px;
+    width: 12px;
+    height: 12px;
+    background: #10B981;
+    border-radius: 50%;
+    border: 2px solid #fff;
+}
+
+.gm-expert-card__name {
+    font-size: 16px;
+    font-weight: 700;
+    color: var(--gm-navy);
+    margin: 0 0 2px;
+}
+
+.gm-expert-card__subject {
+    font-size: 13px;
+    color: var(--gm-muted);
+    margin: 0 0 4px;
+}
+
+.gm-expert-card__stars {
+    color: #F59E0B;
+    font-size: 13px;
+}
+
+.gm-expert-card__actions {
+    display: flex;
+    gap: 10px;
+}
+
+.gm-expert-card__btn-outline {
+    flex: 1;
+    padding: 9px;
+    border: 1.5px solid var(--gm-border);
+    border-radius: 8px;
+    background: transparent;
+    color: var(--gm-text);
+    font-size: 13px;
+    font-weight: 600;
+    cursor: pointer;
+    transition: border-color 0.2s;
+}
+
+.gm-expert-card__btn-outline:hover { border-color: var(--gm-orange); color: var(--gm-orange); }
+
+.gm-expert-card__btn-primary {
+    flex: 1;
+    padding: 9px;
+    border: none;
+    border-radius: 8px;
+    background: var(--gm-orange);
+    color: #fff;
+    font-size: 13px;
+    font-weight: 600;
+    cursor: pointer;
+    transition: background 0.2s;
+}
+
+.gm-expert-card__btn-primary:hover { background: var(--gm-orange-dk); }
+
+/* ════════════════════════
+   CTA BANNER
+════════════════════════ */
+.gm-cta {
+    background: var(--gm-navy);
+    border-radius: 20px;
+    max-width: 1100px;
+    margin: 0 auto 64px;
+    padding: 48px 48px;
+    display: flex;
+    align-items: center;
+    justify-content: space-between;
+    gap: 24px;
+}
+
+.gm-cta__left {
+    display: flex;
+    align-items: center;
+    gap: 24px;
+}
+
+.gm-cta__icon {
+    font-size: 56px;
+    flex-shrink: 0;
+}
+
+.gm-cta h2 {
+    font-size: 26px;
+    font-weight: 800;
+    color: #fff;
+    margin: 0 0 6px;
+}
+
+.gm-cta p {
+    font-size: 15px;
+    color: rgba(255,255,255,0.65);
+    margin: 0;
+}
+
+.gm-cta__btn {
+    background: var(--gm-orange);
+    color: #fff;
+    border: none;
+    padding: 14px 28px;
+    border-radius: 10px;
+    font-size: 15px;
+    font-weight: 700;
+    cursor: pointer;
+    white-space: nowrap;
+    display: flex;
+    align-items: center;
+    gap: 8px;
+    transition: background 0.2s;
+    flex-shrink: 0;
+    text-decoration: none;
+}
+
+.gm-cta__btn:hover { background: var(--gm-orange-dk); color: #fff; }
+
+/* ════════════════════════
+   RESPONSIVE
+════════════════════════ */
+@media (max-width: 900px) {
+    .gm-hero { flex-direction: column; padding: 40px 20px; }
+    .gm-hero__image { display: none; }
+    .gm-hero__title { font-size: 34px; }
+    .gm-stats { flex-wrap: wrap; gap: 20px; padding: 20px; }
+    .gm-stats__divider { display: none; }
+    .gm-features__grid { grid-template-columns: repeat(2, 1fr); }
+    .gm-experts__grid { grid-template-columns: 1fr; }
+    .gm-cta { flex-direction: column; text-align: center; padding: 32px 24px; }
+    .gm-cta__left { flex-direction: column; }
+}
+
+@media (max-width: 480px) {
+    .gm-features__grid { grid-template-columns: 1fr; }
+    .gm-hero__title { font-size: 28px; }
+}

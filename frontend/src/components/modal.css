@@ -1,0 +1,126 @@
+
+/* =========================
+   MODAL WRAPPER
+========================= */
+.modal {
+    position: fixed;
+    inset: 0;
+    z-index: 9999;
+
+    display: flex;
+    justify-content: center;
+    align-items: center;
+
+    animation: fadeIn 0.2s ease;
+}
+
+/* =========================
+   DARK BACKDROP
+========================= */
+.modal-shadow {
+    position: absolute;
+    inset: 0;
+
+    background: rgba(15, 23, 42, 0.65);
+    backdrop-filter: blur(6px);
+
+    transition: all 0.2s ease;
+}
+
+/* =========================
+   MODAL CONTAINER WRAP
+========================= */
+.modal-body {
+    position: relative;
+    z-index: 10;
+
+    width: 100%;
+    display: flex;
+    justify-content: center;
+
+    padding: 20px;
+}
+
+/* =========================
+   MAIN CARD
+========================= */
+.modal-container {
+    width: 460px;
+    max-width: 95%;
+
+    background: #ffffff;
+
+    border-radius: 18px;
+
+    padding: 28px 26px;
+
+    position: relative;
+
+    box-shadow:
+        0 25px 60px rgba(0, 0, 0, 0.25),
+        0 10px 25px rgba(0, 0, 0, 0.15);
+
+    animation: modalPop 0.25s ease;
+}
+
+/* =========================
+   CLOSE BUTTON
+========================= */
+.modal-close {
+    position: absolute;
+    top: 14px;
+    right: 14px;
+
+    font-size: 20px;
+    color: #6b7280;
+
+    cursor: pointer;
+
+    transition: all 0.2s ease;
+}
+
+.modal-close:hover {
+    color: #111827;
+    transform: scale(1.1);
+}
+
+/* =========================
+   OPTIONAL CONTENT WRAPPER
+========================= */
+.modal-content {
+    margin-top: 10px;
+}
+
+/* =========================
+   ANIMATIONS
+========================= */
+@keyframes modalPop {
+    from {
+        opacity: 0;
+        transform: translateY(20px) scale(0.96);
+    }
+    to {
+        opacity: 1;
+        transform: translateY(0) scale(1);
+    }
+}
+
+@keyframes fadeIn {
+    from {
+        opacity: 0;
+    }
+    to {
+        opacity: 1;
+    }
+}
+
+/* =========================
+   RESPONSIVE
+========================= */
+@media (max-width: 768px) {
+    .modal-container {
+        width: 92%;
+        padding: 22px;
+        border-radius: 14px;
+    }
+}
