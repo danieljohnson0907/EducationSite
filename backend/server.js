@@ -11,13 +11,21 @@ const app = express();
 const CONST = require("./src/config/const");
 const { DB_URL, DB_NAME, PORT } = CONST;
 
+
 // ===============================
 // Upload folders
 // ===============================
 
 const uploadPath = path.join(process.cwd(), "public", "img", "uploads");
 
-const blogImagePath = path.join(process.cwd(), "public", "assets", "img", "blogs");
+const blogImagePath = path.join(
+  process.cwd(),
+  "public",
+  "assets",
+  "img",
+  "blogs"
+);
+
 
 if (!fs.existsSync(uploadPath)) {
   fs.mkdirSync(uploadPath, { recursive: true });
@@ -29,7 +37,7 @@ if (!fs.existsSync(blogImagePath)) {
 
 
 // ===============================
-// CORS FIX
+// CORS
 // ===============================
 
 const allowedOrigins = [
@@ -37,18 +45,21 @@ const allowedOrigins = [
   "http://localhost:3000"
 ];
 
+
 const corsOptions = {
   origin: function (origin, callback) {
 
     if (!origin || allowedOrigins.includes(origin)) {
-      callback(null, true);
-    } else {
-      console.log("Blocked by CORS:", origin);
-      callback(null, false);
+      return callback(null, true);
     }
 
+    console.log("Blocked by CORS:", origin);
+    return callback(null, false);
+
   },
+
   credentials: true,
+
   methods: [
     "GET",
     "POST",
@@ -57,49 +68,70 @@ const corsOptions = {
     "DELETE",
     "OPTIONS"
   ],
+
   allowedHeaders: [
     "Content-Type",
     "Authorization"
   ]
 };
 
+
 app.use(cors(corsOptions));
-app.options("*", cors(corsOptions));
+app.options(/.*/, cors(corsOptions));
 
 
 // ===============================
 // Body parser
 // ===============================
 
-app.use(bodyParser.urlencoded({
-  extended: true,
-  limit: "25mb"
-}));
+app.use(
+  bodyParser.urlencoded({
+    extended: true,
+    limit: "25mb"
+  })
+);
 
-app.use(bodyParser.json({
-  limit: "25mb"
-}));
+
+app.use(
+  bodyParser.json({
+    limit: "25mb"
+  })
+);
 
 
 // ===============================
 // Static image routes
 // ===============================
 
-app.use("/uploads", express.static(uploadPath));
+app.use(
+  "/uploads",
+  express.static(uploadPath)
+);
+
 
 app.use(
   "/public",
-  express.static(path.join(process.cwd(), "public"))
+  express.static(
+    path.join(process.cwd(), "public")
+  )
 );
+
 
 app.use(
   "/assets/img/blogs",
   express.static(blogImagePath)
 );
 
+
 app.use(
   "/assets",
-  express.static(path.join(process.cwd(), "public", "assets"))
+  express.static(
+    path.join(
+      process.cwd(),
+      "public",
+      "assets"
+    )
+  )
 );
 
 
@@ -117,10 +149,12 @@ app.use(passport.initialize());
 // ===============================
 
 app.get("/", (req, res) => {
+
   res.json({
     status: "success",
     message: "Backend server is running"
   });
+
 });
 
 
@@ -137,16 +171,28 @@ app.use("/api", routes);
 // MongoDB connection
 // ===============================
 
-const mongoUrl = process.env.MONGO_URL || `${DB_URL}${DB_NAME}`;
+const mongoUrl =
+  process.env.MONGO_URL ||
+  `${DB_URL}${DB_NAME}`;
+
 
 mongoose
   .connect(mongoUrl)
   .then(() => {
-    console.log("✅ MongoDB Connected Successfully");
+
+    console.log(
+      "✅ MongoDB Connected Successfully"
+    );
+
   })
   .catch((err) => {
-    console.error("❌ MongoDB Connection Failed");
+
+    console.error(
+      "❌ MongoDB Connection Failed"
+    );
+
     console.error(err);
+
   });
 
 
@@ -158,6 +204,7 @@ const chatServer = require("./lib/chat_server");
 
 const server = require("http").createServer(app);
 
+
 chatServer.listen(server);
 
 
@@ -165,8 +212,16 @@ chatServer.listen(server);
 // Railway PORT
 // ===============================
 
-const Port = process.env.PORT || PORT || 5000;
+const Port =
+  process.env.PORT ||
+  PORT ||
+  5000;
+
 
 server.listen(Port, () => {
-  console.log(`Server is running on port ${Port}`);
+
+  console.log(
+    `Server is running on port ${Port}`
+  );
+
 });
