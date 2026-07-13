@@ -81,12 +81,8 @@ export const chargeMoney = (balance) =>dispatch =>{
     })
 }
 
-
 export const sendReviewRate = (reviewRate) => dispatch=> {
-    axios.put(
-        'https://educationsite-production.up.railway.app/api/profile/review-rate',
-        {reviewRate}
-    )
+    axios.put('/api/profile/review-rate', {reviewRate})
     .then((res) => {
         console.log(res)
     })
