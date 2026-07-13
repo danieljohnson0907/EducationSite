@@ -35,7 +35,7 @@ if (!fs.existsSync(blogImagePath)) {
 // ===============================
 
 const allowedOrigins = [
-  "https://beautiful-melba-7866ce.netlify.app",
+  "https://goal-mindset.netlify.app/",
   "http://localhost:3000",
 ];
 
