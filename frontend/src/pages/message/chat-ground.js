@@ -1,129 +1,369 @@
-import React, { useState, useEffect } from 'react';
+import React,{useState} from 'react';
+
 import TextArea from 'antd/lib/input/TextArea';
-import { Button, Space } from 'antd';
-import { withRouter } from 'react-router-dom'
-import { connect } from 'react-redux';
-import { SendOutlined } from '@ant-design/icons';
-import { acceptOrder, sendMessage } from '../../redux/actions/messagesAction';
-import Text from '../../components/Text';
-function ChatGround(props) {
-    const [height, setHeight] = useState(0);
-    const [isAltPressed, setIsAltPressed] = useState(false);
-    const [messageText, setMessageText] = useState("");
-    useEffect(() => {
-        setHeight(window.screen.height - 400);
-    }, [])
 
-    function handleMessageSend() {
-        console.log(props.messages.messages);
-        props.sendMessage(props.auth.user.email, props.selectedEmail, messageText, props.messages.messages[props.messages.messages.length -1].order_id);
-        setMessageText("");
-    }
+import {
+Button
+}
+from 'antd';
 
-    return (
-        props.selectedEmail === "" ?
-        <div align="center">
-            <Text 
-                text="Select the user who you want to chat."
-                size="20px"
-            />
-        </div> :
-        <div style={{
-            display: "flex", 
-            gap: "15px", 
-            flexDirection: "column",
-            width: "100%",
-            justifyContent: 'space-between',
-            padding: "15px"
-        }}>
-            {
-                props.information.status === 0 && props.auth.user.type === "expert" &&
-                    <div align="center"
-                        style={{
-                            position: "absolute",
-                            top: "20px",
-                            display: "flex",
-                            justifyContent: "center",
-                            width: "100%"
-                        }}
-                    >
-                        <Button type="primary"
-                            onClick={() => {
-                                props.acceptOrder(props.information.order_id);
-                            }}
-                        >
-                            Accept Order
-                        </Button>
-                    </div>
-            }
-            <div style={{
-                height,
-                overflowY: 'scroll'
-            }}  
-                id="chatground_messages"
-            >
-                <Space
-                    size="large"
-                    direction="vertical"
-                    style={{
-                        width: "100%"
-                    }}
-                >
-                    {
-                        props.messages.messages.map((item) => 
-                            <div
-                                align={item.sender_email === props.auth.user.email ? "right" : "left"}
-                            >
-                                <span style={{
-                                    background: item.sender_email === props.auth.user.email ? "#d9d9fa" : "#aefaeb",
-                                    padding: "8px",
-                                    borderRadius: "5px"
-                                }}>
-                                    {item.message}
-                                </span>
-                            </div>
-                        )        
-                    }
-                </Space>
-            </div>
-            <div style={{marginTop: "15px"}}>
-                <TextArea
-                    value={messageText}
-                    onChange={(e) => {
-                        setMessageText(e.target.value);
-                    }}
-                    onKeyUp = {(e) => {
-                        if(e.keyCode === 13 && !isAltPressed) {
-                            handleMessageSend();
-                        }
-                        if(e.keyCode === 18) {
-                            setIsAltPressed(false);
-                        }
-                    }}
-                    onKeyDown = {(e) => {
-                        if(e.keyCode === 18) {
-                            setIsAltPressed(true);
-                        }
-                    }}
-                />
-                <div align="right" style={{ paddingTop: "15px" }}>
-                    <Button icon={<SendOutlined />} type="primary"
-                        onClick={() => {
-                            handleMessageSend()
-                        }}
-                    >Send</Button>
-                </div>
-            </div>
-        </div>
-    )
+import {
+SendOutlined
+}
+from '@ant-design/icons';
+
+
+import {
+connect
+}
+from 'react-redux';
+
+
+import {
+sendMessage,
+acceptOrder
+}
+from '../../redux/actions/messagesAction';
+
+
+
+function ChatGround(props){
+
+
+const [
+messageText,
+setMessageText
+]=useState("");
+
+
+
+function handleSend(){
+
+
+if(messageText.trim()==="")
+return;
+
+
+
+props.sendMessage(
+
+props.auth.user.email,
+
+props.selectedEmail,
+
+messageText,
+
+props.messages.messages[
+props.messages.messages.length-1
+]?.order_id
+
+);
+
+
+
+setMessageText("");
+
 }
 
-const mapStateToProps = (state) => ({
-    auth: state.auth,
-    messages: state.messages
+
+
+
+
+if(props.selectedEmail===""){
+
+
+return (
+
+<div
+
+style={{
+
+height:"100%",
+
+display:"flex",
+
+alignItems:"center",
+
+justifyContent:"center",
+
+flexDirection:"column",
+
+color:"#777"
+
+}}
+
+>
+
+
+<div
+style={{
+fontSize:"60px"
+}}
+>
+💬
+</div>
+
+
+<h2>
+Select a user to start chatting
+</h2>
+
+
+<p>
+Choose from your existing conversations or start a new one.
+</p>
+
+
+</div>
+
+)
+
+}
+
+
+
+
+
+return (
+
+<div
+
+style={{
+
+height:"100%",
+
+display:"flex",
+
+flexDirection:"column"
+
+}}
+
+>
+
+
+
+
+
+<div
+
+style={{
+
+padding:"20px",
+
+borderBottom:"1px solid #eee",
+
+fontSize:"20px",
+
+fontWeight:"600"
+
+}}
+
+>
+
+Chat
+
+</div>
+
+
+
+
+
+
+<div
+
+style={{
+
+flex:1,
+
+padding:"20px",
+
+overflowY:"auto"
+
+}}
+
+>
+
+
+
+{
+
+props.messages.messages.length===0 ?
+
+
+<div
+style={{
+textAlign:"center",
+marginTop:"150px",
+color:"#999"
+}}
+>
+
+No messages yet
+
+</div>
+
+
+
+:
+
+props.messages.messages.map(item=>(
+
+
+<div
+
+key={item._id}
+
+style={{
+
+display:"flex",
+
+justifyContent:
+
+item.sender_email===props.auth.user.email
+?
+"flex-end"
+:
+"flex-start",
+
+marginBottom:"15px"
+
+}}
+
+>
+
+
+<div
+
+style={{
+
+background:
+
+item.sender_email===props.auth.user.email
+
+?
+"#ff6542"
+
+:
+"#f1f1f1",
+
+
+color:
+
+item.sender_email===props.auth.user.email
+
+?
+"white"
+:
+"#333",
+
+
+padding:"12px 18px",
+
+borderRadius:"15px",
+
+maxWidth:"60%"
+
+}}
+
+>
+
+{item.message}
+
+
+</div>
+
+
+</div>
+
+
+))
+
+}
+
+
+
+</div>
+
+
+
+
+
+
+<div
+
+style={{
+
+padding:"15px",
+
+borderTop:"1px solid #eee",
+
+display:"flex",
+
+gap:"10px"
+
+}}
+
+>
+
+
+<TextArea
+
+value={messageText}
+
+onChange={(e)=>setMessageText(e.target.value)}
+
+autoSize={{minRows:1,maxRows:4}}
+
+/>
+
+
+<Button
+
+type="primary"
+
+icon={<SendOutlined/>}
+
+onClick={handleSend}
+
+>
+
+Send
+
+</Button>
+
+
+
+</div>
+
+
+
+</div>
+
+)
+
+}
+
+
+
+
+
+const mapStateToProps=(state)=>({
+
+auth:state.auth,
+
+messages:state.messages
+
 })
 
-export default connect(mapStateToProps, {
-    sendMessage,
-    acceptOrder
-})(withRouter(ChatGround));
+
+
+export default connect(
+
+mapStateToProps,
+
+{
+sendMessage,
+acceptOrder
+}
+
+)(ChatGround);
