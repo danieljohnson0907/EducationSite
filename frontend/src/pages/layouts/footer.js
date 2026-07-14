@@ -25,7 +25,8 @@ const navLinks = [
 
 const contactInfo = [
   { icon: <MailOutlined />, text: "Telegram: @high_sky_future" },
-  { icon: <PhoneOutlined />, text: "+44 78 2757 6965" },
+  { icon: <MailOutlined />, text: "Teams: stanlywilliam797@outlook.com" }, 
+  // { icon: <PhoneOutlined />, text: "+44 78 2757 6965" },
   {
     icon: <EnvironmentOutlined />,
     text: "Discord group: https://discord.gg/pYKtmMnpg",
@@ -65,7 +66,7 @@ const Footer = () => {
       style={{
         background: `linear-gradient(180deg, ${DARK} 0%, #0b1120 100%)`,
         color: TEXT,
-        marginTop: 60,
+      
       }}
     >
       <div
@@ -163,8 +164,7 @@ const Footer = () => {
               <FooterLink key={link.label} {...link} />
             ))}
           </Col>
-
-          <Col xs={24} sm={14} md={8} lg={9}>
+                    <Col xs={24} sm={14} md={8} lg={9}>
             <div
               style={{
                 background: DARK_CARD,
@@ -216,7 +216,7 @@ const Footer = () => {
                     style={{
                       color: TEXT,
                       fontSize: 14,
-                      lineHeight: 1.6,
+                      lineHeight: 2.3,
                     }}
                   >
                     {text}
@@ -247,8 +247,6 @@ const Footer = () => {
           <Text style={{ color: TEXT, fontSize: 13 }}>
             © 2026 GoalMindset. All Rights Reserved.
           </Text>
-
-          
         </div>
       </div>
     </footer>

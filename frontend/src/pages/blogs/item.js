@@ -31,15 +31,13 @@ function Item(props) {
     const getSubject = () => {
         const text = title.toLowerCase();
 
-        if (text.includes('english')) return 'English';
         if (text.includes('mathematics') || text.includes('math')) return 'Mathematics';
         if (text.includes('biology')) return 'Biology';
         if (text.includes('chemistry')) return 'Chemistry';
         if (text.includes('physics')) return 'Physics';
         if (text.includes('history')) return 'History';
-        if (text.includes('geography')) return 'Geography';
         if (text.includes('computer science') || text.includes('ict') || text.includes('computer')) return 'Computer Science / ICT';
-        if (text.includes('physical education') || /\bpe\b/i.test(title)) return 'Physical Education';
+        if (text.includes('SOCIAL SCIENCES & HUMANITIES') || /\bpe\b/i.test(title)) return 'SOCIAL SCIENCES & HUMANITIES';
 
         return 'Subject';
     };

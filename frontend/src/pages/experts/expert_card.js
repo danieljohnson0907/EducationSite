@@ -212,13 +212,22 @@ function ExpertCard(props) {
                         marginBottom: 20
                     }}
                 >
-                    <Rate
+                    {/* <Rate
                         disabled
                         defaultValue={4.8}
                         style={{
                             fontSize: 14
                         }}
-                    />
+                    /> */}
+                    <div
+                        style={{
+                            fontSize: 12,
+                            color: '#94A3B8',
+                            marginTop: 5
+                        }}
+                    >
+                        ( Orders in Progress: {props.data.accepted || 0}) 
+                    </div>
 
                     <div
                         style={{
@@ -227,7 +236,7 @@ function ExpertCard(props) {
                             marginTop: 5
                         }}
                     >
-                        ({props.data.completed || 4.8} reviews)
+                        (Total Mentees: {props.data.completed || 10})
                     </div>
 
                 </div>

@@ -22,7 +22,7 @@ function Home(props) {
             {/* Stats bar */}
             <States
                 count={props.home.count}
-                average_review={props.home.average_review}
+                average_review={Number(props.home?.average_review || 0).toFixed(2)}
             />
 
             {/* Why choose us */}
@@ -35,7 +35,7 @@ function Home(props) {
             />
 
             {/* CTA Banner */}
-            <div style={{ padding: '0 24px 64px' }}>
+            <div style={{ padding: '0 24px 24px' }}>
                 <div className="gm-cta">
                     <div className="gm-cta__left">
                         <span className="gm-cta__icon">🎓</span>

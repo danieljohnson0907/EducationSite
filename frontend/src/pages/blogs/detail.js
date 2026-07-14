@@ -111,7 +111,8 @@ function Detail(props) {
                                     maxHeight: 430,
                                     objectFit: 'contain',
                                     objectPosition: 'center',
-                                    display: 'block'
+                                    display: 'block',
+                                    marginTop: '50px',
                                 }}
                             />
                         </div>

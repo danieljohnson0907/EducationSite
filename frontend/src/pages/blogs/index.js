@@ -101,11 +101,7 @@ function Blogs(props) {
             name: 'All Subjects',
             keywords: []
         },
-        {
-            icon: '📖',
-            name: 'English',
-            keywords: ['english']
-        },
+        
         {
             icon: '∑',
             name: 'Mathematics',
@@ -131,11 +127,7 @@ function Blogs(props) {
             name: 'History',
             keywords: ['history']
         },
-        {
-            icon: '🌍',
-            name: 'Geography',
-            keywords: ['geography']
-        },
+        
         {
             icon: '💻',
             name: 'Computer Science / ICT',
@@ -143,8 +135,8 @@ function Blogs(props) {
         },
         {
             icon: '🏃',
-            name: 'Physical Education',
-            keywords: ['physical education', 'pe']
+            name: 'SOCIAL SCIENCES & HUMANITIES',
+            keywords: ['SOCIAL SCIENCES & HUMANITIES', 'pe']
         }
     ];
 

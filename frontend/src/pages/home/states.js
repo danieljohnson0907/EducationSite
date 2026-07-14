@@ -12,7 +12,7 @@ export default function States({ count, average_review }) {
         {
             icon: <SafetyOutlined />,
             colorClass: 'gm-stats__icon--green',
-            value: '88%',
+            value: '95%',
             label: 'Success Rate',
         },
         {
