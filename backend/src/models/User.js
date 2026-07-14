@@ -9,6 +9,8 @@ const UserSchema = new Schema({
     type : {type: String, require : true},
     role: { type: Number, require : true },
     avatar_extension: { type: String, require : true},
+    avatar_data: { type: Buffer },
+    avatar_mimetype: { type: String },
     gender: { type: String, require : true},
     blog_id: { type: String, require : true},
     birthday : {type : Date, default : Date.now},

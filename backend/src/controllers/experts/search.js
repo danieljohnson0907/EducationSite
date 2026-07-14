@@ -21,25 +21,21 @@ exports.getExpertInfo = async function(user) {
     const messages = send_messages.concat(receiver_messages);
     const order_ids = {};
     messages.map((item) => {
-        if(!order_ids[item.order_id]) order_ids[item.order_id] = item.order_id; 
+        if(item.order_id && !order_ids[item.order_id]) order_ids[item.order_id] = item.order_id;
     });
     const order_cnt = {
         completed: 0,
         accepting: 0,
         accepted: 0
     };
-    
+
     const blog = await Blogs.findOne({_id: user.blog_id});
-    try {
-        for(let order_id in order_ids) {
-            const order = await Order.findOne({_id: order_id});
-            if(order.status == 0 ) order_cnt['accepting'] = order_cnt['accepting'] + 1;
-            if(order.status == 1 ) order_cnt['accepted'] = order_cnt['accepted'] + 1;
-            if(order.status == 2 ) order_cnt['completed'] = order_cnt['completed'] + 1;
-        }
-    }catch(e) {
-        console.log(order_ids);
-        // console.log(e);
+    for(let order_id in order_ids) {
+        const order = await Order.findOne({_id: order_id}).catch(() => null);
+        if(!order) continue;
+        if(order.status == 0 ) order_cnt['accepting'] = order_cnt['accepting'] + 1;
+        if(order.status == 1 ) order_cnt['accepted'] = order_cnt['accepted'] + 1;
+        if(order.status == 2 ) order_cnt['completed'] = order_cnt['completed'] + 1;
     }
     return {
         name: user.name,

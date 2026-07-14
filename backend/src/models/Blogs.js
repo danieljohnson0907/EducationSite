@@ -6,6 +6,8 @@ const BlogsSchema = new Schema({
     parent_email: {type : String},
     title : {type : String},
     image_extension: {type: String},
+    image_data: {type: Buffer},
+    image_mimetype: {type: String},
     content : {type : String},
     create_at : {type : Date, default : Date.now},
 });

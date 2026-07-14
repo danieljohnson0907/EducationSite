@@ -60,9 +60,14 @@ exports.register = (req, res) => {
       const uploadedFile = allFiles.length > 0 ? allFiles[0] : null;
 
       let avatar_extension = "";
+      let avatar_data;
+      let avatar_mimetype;
 
       if (uploadedFile && uploadedFile.originalFilename) {
         avatar_extension = uploadedFile.originalFilename.split(".").pop();
+        avatar_data = fs.readFileSync(uploadedFile.path);
+        avatar_mimetype = uploadedFile.headers && uploadedFile.headers["content-type"];
+        fs.unlink(uploadedFile.path, () => {});
       }
 
       const newUser = new User({
@@ -72,6 +77,8 @@ exports.register = (req, res) => {
         type,
         role: 1,
         avatar_extension,
+        avatar_data,
+        avatar_mimetype,
         birthday,
         gender,
       });
@@ -80,17 +87,10 @@ exports.register = (req, res) => {
       newUser.password = await bcrypt.hash(newUser.password, salt);
 
       const savedUser = await newUser.save();
+      const userResponse = savedUser.toObject();
+      delete userResponse.avatar_data;
 
-      if (uploadedFile && avatar_extension) {
-        const finalImagePath = path.join(
-          uploadPath,
-          `${savedUser._id}.${avatar_extension}`
-        );
-
-        fs.renameSync(uploadedFile.path, finalImagePath);
-      }
-
-      return res.json(savedUser);
+      return res.json(userResponse);
     } catch (error) {
       console.error("Register error:", error);
 

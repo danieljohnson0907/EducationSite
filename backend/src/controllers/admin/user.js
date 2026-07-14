@@ -3,9 +3,9 @@ exports.getUsers = async(req, res) => {
     const {role} = req.body;
     let users = [];
     if(role == "all") {
-        users = await User.find();
+        users = await User.find().select('-avatar_data');
     } else {
-        users = await User.find({role})
+        users = await User.find({role}).select('-avatar_data')
     }
     return res.status(200).json(users);
 }

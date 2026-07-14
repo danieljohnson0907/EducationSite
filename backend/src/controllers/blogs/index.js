@@ -1,5 +1,3 @@
-const path = require('path');
-const fs = require('fs');
 const Blogs = require('../../models/Blogs');
 const User = require('../../models/User');
 
@@ -18,11 +16,17 @@ function getBaseUrl(req) {
 function addImageUrl(req, blog) {
     const item = blog.toObject ? blog.toObject() : blog;
 
+    let image_url = '';
+    if (item.image_mimetype) {
+        image_url = `${getBaseUrl(req)}/api/blogs/image/${item._id}`;
+    } else if (item.image_extension) {
+        // legacy blogs whose image was saved to disk before DB-backed storage
+        image_url = `${getBaseUrl(req)}/assets/img/blogs/${item._id}.${item.image_extension}`;
+    }
+
     return {
         ...item,
-        image_url: item.image_extension
-            ? `${getBaseUrl(req)}/assets/img/blogs/${item._id}.${item.image_extension}`
-            : ''
+        image_url
     };
 }
 
@@ -30,6 +34,7 @@ function parseBase64Image(image) {
     if (typeof image !== 'string') {
         return {
             image_extension: undefined,
+            mimetype: undefined,
             imageBuffer: undefined
         };
     }
@@ -39,6 +44,7 @@ function parseBase64Image(image) {
     if (!match) {
         return {
             image_extension: undefined,
+            mimetype: undefined,
             imageBuffer: undefined
         };
     }
@@ -49,19 +55,30 @@ function parseBase64Image(image) {
     if (!image_extension) {
         return {
             image_extension: undefined,
+            mimetype: undefined,
             imageBuffer: undefined
         };
     }
 
     return {
         image_extension,
+        mimetype: `image/${mimeExt}`,
         imageBuffer: Buffer.from(match[2], 'base64')
     };
 }
 
+exports.getImage = async function (req, res) {
+    const blog = await Blogs.findById(req.params.id).select('image_data image_mimetype').catch(() => null);
+    if (!blog || !blog.image_data) {
+        return res.status(404).end();
+    }
+    res.set('Content-Type', blog.image_mimetype || 'application/octet-stream');
+    return res.send(blog.image_data);
+};
+
 exports.getBlogs = async function (req, res) {
     try {
-        const result = await Blogs.find({ parent_email: '' }).lean();
+        const result = await Blogs.find({ parent_email: '' }).select('-image_data').lean();
         return res.status(200).json(result.map((blog) => addImageUrl(req, blog)));
     } catch (err) {
         console.log(err);
@@ -72,7 +89,7 @@ exports.getBlogs = async function (req, res) {
 exports.getBlogComments = async function (req, res) {
     try {
         const { email } = req.body;
-        const result = await Blogs.find({ parent_email: email }).lean();
+        const result = await Blogs.find({ parent_email: email }).select('-image_data').lean();
         return res.status(200).json(result.map((blog) => addImageUrl(req, blog)));
     } catch (err) {
         console.log(err);
@@ -83,27 +100,17 @@ exports.getBlogComments = async function (req, res) {
 exports.postBlog = async function (req, res) {
     try {
         const { email, title, content, image } = req.body;
-        const { image_extension, imageBuffer } = parseBase64Image(image);
+        const { image_extension, mimetype, imageBuffer } = parseBase64Image(image);
 
         const blog = await Blogs.create({
             email,
             title,
             content,
             image_extension,
+            image_data: imageBuffer,
+            image_mimetype: mimetype,
             parent_email: ''
         });
-
-        if (imageBuffer) {
-            // Save image inside the backend project, not inside the frontend project.
-            // Make sure server.js serves this folder: app.use('/assets', express.static(path.join(__dirname, 'public/assets')))
-            const uploadDir = path.join(__dirname, '..', '..', '..', 'public', 'assets', 'img', 'blogs');
-
-            if (!fs.existsSync(uploadDir)) {
-                fs.mkdirSync(uploadDir, { recursive: true });
-            }
-
-            fs.writeFileSync(path.join(uploadDir, `${blog._id}.${image_extension}`), imageBuffer);
-        }
 
         return res.json({
             result: 'success',

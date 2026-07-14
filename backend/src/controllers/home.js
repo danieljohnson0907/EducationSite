@@ -5,8 +5,8 @@ exports.getStates = async function (req, res) {
     const students_count = await User.countDocuments({ type: "student" });
     const experts_count = await User.countDocuments({ type: "expert" });
 
-    const recommand_students = await User.find({ type: "student" }).limit(4);
-    const recommand_experts = await User.find({ type: "expert" }).limit(4);
+    const recommand_students = await User.find({ type: "student" }).select('-avatar_data').limit(4);
+    const recommand_experts = await User.find({ type: "expert" }).select('-avatar_data').limit(4);
 
     const usersWithReview = await User.find({
       review: { $exists: true }

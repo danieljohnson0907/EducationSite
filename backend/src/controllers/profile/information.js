@@ -1,9 +1,6 @@
 const User = require('../../models/User');
-const fs = require("graceful-fs");
-const path = require("path");
 const MoneyTransaction= require('../../models/Balance')
 
-const uploadPath = path.join(process.cwd(), "public", "img", "uploads");
 const ALLOWED_AVATAR_MIME_TO_EXT = { jpeg: "jpg", jpg: "jpg", png: "png", gif: "gif", webp: "webp" };
 const EDITABLE_FIELDS = ["name", "gender", "birthday"];
 
@@ -22,17 +19,13 @@ exports.editInformation = async(req, res) => {
 
     if (typeof user_data.avatar === "string") {
         const match = user_data.avatar.match(/^data:image\/(\w+);base64,(.+)$/);
-        const extension = match && ALLOWED_AVATAR_MIME_TO_EXT[match[1].toLowerCase()];
+        const mimeType = match && match[1].toLowerCase();
+        const extension = mimeType && ALLOWED_AVATAR_MIME_TO_EXT[mimeType];
 
         if (match && extension) {
-            if (!fs.existsSync(uploadPath)) {
-                fs.mkdirSync(uploadPath, { recursive: true });
-            }
-            fs.writeFileSync(
-                path.join(uploadPath, `${user._id}.${extension}`),
-                Buffer.from(match[2], "base64")
-            );
             update.avatar_extension = extension;
+            update.avatar_data = Buffer.from(match[2], "base64");
+            update.avatar_mimetype = `image/${mimeType}`;
         }
     }
 
@@ -52,7 +45,7 @@ exports.editInformation = async(req, res) => {
 
 exports.getInformation = async(req, res) => {
     const { email } = req.body;
-    const user = await User.findOne({email});
+    const user = await User.findOne({email}).select('-avatar_data');
     res.status(200).json({
         data: user
     });

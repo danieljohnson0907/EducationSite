@@ -3,83 +3,80 @@ const Messages = require("../../models/Messages");
 const Order = require("../../models/Order");
 const User = require("../../models/User");
 
+function emitToUser(io, users, email, event, payload) {
+    const socketId = users[email];
+    if (socketId) io.to(socketId).emit(event, payload);
+}
+
 exports.sendUserAdviceMessage = async (data, socket, io, users) => {
-    console.log(data);
     const sender_email = data.email;
     const { message } = data;
     const admin = await User.findOne({ role: 2 });
-    const receiver_email = admin['email'];
+    if (!admin) return;
+    const receiver_email = admin.email;
     const newAdvice = new Advice({
         sender_email,
         receiver_email,
         message
     });
-    newAdvice.save();
-    io.sockets.emit('send_advice_message', {
+    await newAdvice.save();
+    const payload = {
         sender_email,
         receiver_email,
         message,
         create_at: new Date()
-    });
+    };
+    emitToUser(io, users, sender_email, 'send_advice_message', payload);
+    emitToUser(io, users, receiver_email, 'send_advice_message', payload);
 }
 
-exports.acceptOrder = async(data, socket,io, users) => {
+exports.acceptOrder = async(data, socket, io, users) => {
     const { order_id } = data;
-    Order.updateOne(
-        {_id: order_id},
-        {
-            $set: {
-                status: 1
-            }
-        }
-    ).then((updated_order) => {
-        io.sockets.emit("accept_order", {});
-    })
+    await Order.updateOne({_id: order_id}, {$set: {status: 1}});
+    const message = await Messages.findOne({order_id});
+    if (!message) return;
+    emitToUser(io, users, message.sender_email, "accept_order", {});
+    emitToUser(io, users, message.receiver_email, "accept_order", {});
 }
 
-exports.completeOrder = async(data, socket,io, users) => {
+exports.completeOrder = async(data, socket, io, users) => {
     const { order_id } = data;
-    Order.updateOne(
-        {_id: order_id},
+    await Order.updateOne({_id: order_id}, {$set: {status: 2}});
+    const message = await Messages.findOne({order_id});
+    const updated_order = await Order.findOne({_id: order_id});
+    if (!message || !updated_order) return;
+    const {sender_email, receiver_email} = message;
+
+    const user1 = await User.findOne({email: sender_email});
+    const user2 = await User.findOne({email: receiver_email});
+    if (!user1 || !user2) return;
+
+    let expert = {}, student = {};
+    if(user1.type == "student") {
+        student = user1; expert = user2;
+    } else {
+        student = user2; expert = user1;
+    }
+
+    await User.updateOne(
+        {email: student.email},
         {
             $set: {
-                status: 2
+                balance: Number(student.balance) - Number(updated_order.budget)
             }
         }
-    ).then(async(result) => {
-        const message = await Messages.findOne({order_id});
-        const updated_order = await Order.findOne({_id: order_id})
-        const {sender_email, receiver_email} = message;
-        
-        const user1 = await User.findOne({email: sender_email});
-        const user2 = await User.findOne({email: receiver_email});
-        
-        let expert = {}, student = {};
-        if(user1.type == "student") {
-            student = user1; expert = user2;
-        } else {
-            student = user2; expert = user1;
+    );
+    await User.updateOne(
+        {email: expert.email},
+        {
+            $set: {
+                balance: Number(expert.balance) + Number(updated_order.budget)
+            }
         }
-        
-        const update1 = await User.updateOne(
-            {email: student.email},
-            {
-                $set: {
-                    balance: Number(student.balance) - Number(updated_order.budget)
-                }
-            }
-        );
-        const updated2 = await User.updateOne(
-            {email: expert.email},
-            {
-                $set: {
-                    balance: Number(expert.balance) + Number(updated_order.budget)
-                }
-            }
-        )
+    );
 
-        io.sockets.emit("complete_order", {});
-    })
+    emitToUser(io, users, sender_email, "complete_order", {});
+    emitToUser(io, users, receiver_email, "complete_order", {});
 }
 
 exports.sendOrder = async(data, socket, io, users) => {
@@ -94,14 +91,14 @@ exports.sendOrder = async(data, socket, io, users) => {
     const messages = await Messages.find({sender_email, receiver_email});
     for(let k = 0; k < messages.length; k++) {
         const item = messages[k];
-        if(!orders[item.order_id]) {
+        if(item.order_id && !orders[item.order_id]) {
             orders[item.order_id] = item;
         }
     }
     let is_existed_accpeted_order = false;
     for(let key in orders) {
         const order_ = await Order.findOne({_id: key});
-        if(order_.status != 2) {
+        if(order_ && order_.status != 2) {
             is_existed_accpeted_order = true;
         }
     }
@@ -198,13 +195,15 @@ exports.sendAdminAdviceMessage = async (data, socket, io, users) => {
         receiver_email,
         message
     });
-    newAdvice.save();
-    io.sockets.emit('send_advice_message', {
+    await newAdvice.save();
+    const payload = {
         sender_email,
         receiver_email,
         message,
         create_at: new Date()
-    });
+    };
+    emitToUser(io, users, sender_email, 'send_advice_message', payload);
+    emitToUser(io, users, receiver_email, 'send_advice_message', payload);
 }
 
 exports.sendMessage = async (data, socket, io, users) => {
@@ -220,13 +219,15 @@ exports.sendMessage = async (data, socket, io, users) => {
         message,
         order_id
     });
-    newMessage.save();
-    io.sockets.emit('send_message', {
+    await newMessage.save();
+    const payload = {
         sender_email,
         receiver_email,
         message,
         create_at: new Date()
-    });
+    };
+    emitToUser(io, users, sender_email, 'send_message', payload);
+    emitToUser(io, users, receiver_email, 'send_message', payload);
 }
 
 exports.getMessagesData = async (data, socket, io, users) => {
@@ -276,7 +277,7 @@ exports.getMessagesUsers = async(data, socket, io, users) => {
         promises.push(this.getMessagesUserInfo(user.sender_email, user.receiver_email, email));
     }
     const result = await Promise.all(promises);
-    io.sockets.emit('get_messages_users', {
+    socket.emit('get_messages_users', {
         email,
         result
     });
@@ -302,15 +303,19 @@ exports.getMessagesUserInfo = async (sender_email, receiver_email, email) => {
     let unread_count = 0;
     for(let k = 0; k < messages.length; k++) {
         const item = messages[k];
-        const order = await Order.findOne({_id: item.order_id});
-        result = {
-            ...result,
-            message: order.message,
-            order_id: order._id,
-            status: order.status,
-            budget: order.budget
-        };
-        if (item.receiver_read == 0) unread_count++; // if receiver(administrator) didn't read this message;          
+        const order = item.order_id
+            ? await Order.findOne({_id: item.order_id}).catch(() => null)
+            : null;
+        if (order) {
+            result = {
+                ...result,
+                message: order.message,
+                order_id: order._id,
+                status: order.status,
+                budget: order.budget
+            };
+        }
+        if (item.receiver_read == 0) unread_count++; // if receiver(administrator) didn't read this message;
     }
     result['unread_count'] = unread_count;
     return result;

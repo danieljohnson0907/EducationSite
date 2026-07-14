@@ -18,23 +18,24 @@ exports.getOrders = async (req, res) => {
     orders.map((item) => {
         promises.push(this.getUserInfo(item));
     })
-    const result = await Promise.all(promises);
-    result.map((item) => {
-        if(type) {
-            if(type == "expert" && item.expert == email) return item;
-            if(type == "student" && item.student == email) return item;
-        } else {
-            return item;
-        }     
-    });
+    let result = (await Promise.all(promises)).filter(Boolean);
+    if(type && email) {
+        result = result.filter((item) => {
+            if(type == "expert") return item.expert == email;
+            if(type == "student") return item.student == email;
+            return true;
+        });
+    }
     return res.status(200).json(result);
 }
 
 exports.getUserInfo = async (order) => {
     const message = await Messages.findOne({ order_id: order._id })
+    if (!message) return null;
     const { sender_email, receiver_email } = message;
     const sender = await User.findOne({ email: sender_email });
     const receiver = await User.findOne({ email: receiver_email });
+    if (!sender || !receiver) return null;
     let student = sender, expert = receiver;
     if (sender.type == "expert") {
         student = receiver;
