@@ -24,11 +24,11 @@ const navLinks = [
 ];
 
 const contactInfo = [
-  { icon: <MailOutlined />, text: "stanlywilliam38@gmail.com" },
-  { icon: <PhoneOutlined />, text: "+1 (123) 456-7890" },
+  { icon: <MailOutlined />, text: "Telegram: @high_sky_future" },
+  { icon: <PhoneOutlined />, text: "+44 78 2757 6965" },
   {
     icon: <EnvironmentOutlined />,
-    text: "123 Education Street, Davao, Philippines",
+    text: "Discord group: https://discord.gg/pYKtmMnpg",
   },
 ];
 
