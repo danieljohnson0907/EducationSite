@@ -3,6 +3,7 @@ import { GET_MESSAGES_USERS, SET_SOCKET, ADD_MESSAGES_DATA } from "../types"
 import { socket } from "./socketAction"
 export const initialSocket = (email) => dispatch => {
     socket.emit('set_userId', { email })
+    socket.off('connected')
     socket.on('connected', function (first) {
         console.log(first)
     })
@@ -10,9 +11,10 @@ export const initialSocket = (email) => dispatch => {
         type: SET_SOCKET,
         payload: socket
     })
-    socket.emit('get_messages_users', { 
+    socket.emit('get_messages_users', {
         email
     });
+    socket.off('get_messages_users')
     socket.on('get_messages_users', (data) => {
         const user_email = data.email;
         if(user_email === email)
@@ -21,6 +23,7 @@ export const initialSocket = (email) => dispatch => {
                 payload: data.result
             })
     })
+    socket.off('send_message')
     socket.on('send_message', (result) => {
         dispatch({
             type: ADD_MESSAGES_DATA,
@@ -31,13 +34,15 @@ export const initialSocket = (email) => dispatch => {
         })
         document.getElementById('chatground_messages').scrollTop = document.getElementById('chatground_messages').scrollHeight - document.getElementById('chatground_messages').clientHeight
     })
+    socket.off('accept_order')
     socket.on('accept_order', (result) => {
-        socket.emit('get_messages_users', { 
+        socket.emit('get_messages_users', {
             email
         });
     });
+    socket.off('complete_order')
     socket.on('complete_order', (result) => {
-        socket.emit('get_messages_users', { 
+        socket.emit('get_messages_users', {
             email
         });
     });
@@ -49,6 +54,7 @@ export const completeOrder = (order_id) => dispatch => {
 
 export const getMessagesData = (sender_email, receiver_email) => dispatch => {
     socket.emit('get_messages_data', { sender_email, receiver_email });
+    socket.off('get_messages_data')
     socket.on('get_messages_data', (result) => {
         dispatch({
             type: ADD_MESSAGES_DATA,

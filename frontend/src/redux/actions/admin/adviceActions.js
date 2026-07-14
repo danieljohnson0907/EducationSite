@@ -2,6 +2,7 @@ import { ADD_ADMIN_ADVICE_MESSAGE, GET_ADVICE_USERS, SET_SOCKET } from "../../ty
 import { socket } from "../socketAction"
 export const initialSocket = (email) => dispatch => {
     socket.emit('set_userId', { email })
+    socket.off('connected')
     socket.on('connected', function (first) {
         console.log(first)
     })
@@ -10,6 +11,7 @@ export const initialSocket = (email) => dispatch => {
         payload: socket
     })
     socket.emit('get_advice_users', { email });
+    socket.off('get_advice_users')
     socket.on('get_advice_users', (result) => {
         dispatch({
             type: GET_ADVICE_USERS,
@@ -17,6 +19,7 @@ export const initialSocket = (email) => dispatch => {
         })
     })
 
+    socket.off('send_advice_message')
     socket.on('send_advice_message', (result) => {
         dispatch({
             type: ADD_ADMIN_ADVICE_MESSAGE,
@@ -31,6 +34,7 @@ export const initialSocket = (email) => dispatch => {
 
 export const getAdviceMessages = (sender_email, receiver_email) => dispatch => {
     socket.emit('get_admin_advice_messages', { sender_email, receiver_email });
+    socket.off('get_admin_advice_messages')
     socket.on('get_admin_advice_messages', (result) => {
         dispatch({
             type: ADD_ADMIN_ADVICE_MESSAGE,

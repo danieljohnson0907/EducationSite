@@ -3,14 +3,16 @@ import { socket } from "./socketAction"
 export const initialSocket = (email) => dispatch => {
     // socket.emit('connection')
     socket.emit('set_userId',{email})
+    socket.off('connected')
     socket.on('connected', function(first){
         console.log(first)
     })
     dispatch({
         type: SET_SOCKET,
-        payload : socket 
+        payload : socket
     })
     socket.emit('get_user_advice_messages', { email });
+    socket.off('get_user_advice_messages')
     socket.on('get_user_advice_messages', function(data) {
         dispatch({
             type: ADD_USER_ADVICE_MESSAGE,
@@ -19,6 +21,7 @@ export const initialSocket = (email) => dispatch => {
             email
         })
     })
+    socket.off('send_advice_message')
     socket.on('send_advice_message', (result) => {
         dispatch({
             type: ADD_USER_ADVICE_MESSAGE,

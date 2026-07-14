@@ -7,7 +7,7 @@ function Orders(props) {
     const [columns, setColumns] = useState([]);
     const {Option} = Select;
     useEffect(() => {
-        props.getOrdersData("", "all", props.auth.user?.type);
+        props.getOrdersData(props.auth.user?.email, "all", props.auth.user?.type);
         if(props.auth.user?.type === "student") {
             setColumns([
                 {
@@ -81,7 +81,7 @@ function Orders(props) {
                     <Select  style={{ width: "120px" }}
                     defaultValue={"all"}
                         onChange={(value) => {
-                            props.getOrdersData("", value)
+                            props.getOrdersData(props.auth.user?.email, value, props.auth.user?.type)
                         }}
                     >
                         <Option value="all">All</Option>

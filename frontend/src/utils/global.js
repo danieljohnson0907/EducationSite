@@ -10,9 +10,8 @@ export const getBase64 = (img, callback) => {
 
 export const getAvatarUrl = (user) => {
     const id = user?.id || user?._id;
-    const extension = user?.avatar_extension;
-    if (!id || !extension) return undefined;
-    return `${API_BASE_URL}/uploads/${id}.${extension}`;
+    if (!id || !user?.avatar_extension) return undefined;
+    return `${API_BASE_URL}/api/users/avatar/${id}`;
 };
 
 export const isArray = (value) => {

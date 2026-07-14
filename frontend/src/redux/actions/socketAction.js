@@ -1,5 +1,6 @@
 import io from "socket.io-client";
+import { API_BASE_URL } from "../../config/const";
 
-export const socket = io("https://educationsite-production.up.railway.app", {
-  transports: ["websocket"],
+export const socket = io(API_BASE_URL, {
+  transports: ["websocket", "polling"],
 });
