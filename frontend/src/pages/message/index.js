@@ -5,6 +5,7 @@ import { Row, Col, notification } from 'antd';
 
 import ChatGround from './chat-ground';
 import Sidebar from './sidebar';
+import Information from './information';
 
 import { initialSocket } from '../../redux/actions/messagesAction';
 
@@ -24,6 +25,8 @@ function Message(props) {
 
 
   const [selectedEmail,setSelectedEmail] = useState("");
+
+  const hasSelection = selectedEmail !== "";
 
 
   useEffect(()=>{
@@ -117,7 +120,7 @@ setSelectedEmail={setSelectedEmail}
 
 
 <Col
-span={18}
+span={hasSelection ? 12 : 18}
 style={{
 height:"100%"
 }}
@@ -134,6 +137,27 @@ selectedEmail={selectedEmail}
 
 
 </Col>
+
+
+
+{
+hasSelection &&
+<Col
+span={6}
+style={{
+height:"100%",
+borderLeft:"1px solid #eee",
+padding:"20px",
+overflowY:"auto"
+}}
+>
+
+<Information
+data={information}
+/>
+
+</Col>
+}
 
 
 

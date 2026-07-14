@@ -3,7 +3,8 @@ import React,{useState} from 'react';
 import TextArea from 'antd/lib/input/TextArea';
 
 import {
-Button
+Button,
+Avatar
 }
 from 'antd';
 
@@ -148,19 +149,56 @@ flexDirection:"column"
 
 style={{
 
-padding:"20px",
+padding:"15px 20px",
 
 borderBottom:"1px solid #eee",
 
-fontSize:"20px",
+display:"flex",
 
-fontWeight:"600"
+alignItems:"center",
+
+justifyContent:"space-between",
+
+gap:"10px"
 
 }}
 
 >
 
-Chat
+<div
+style={{
+display:"flex",
+alignItems:"center",
+gap:"12px"
+}}
+>
+
+<Avatar/>
+
+<div
+style={{
+fontSize:"18px",
+fontWeight:"600"
+}}
+>
+{props.information?.name || "Chat"}
+</div>
+
+</div>
+
+{
+props.information?.name &&
+props.information.status===0 &&
+props.auth.user.type==="expert" &&
+<Button
+type="primary"
+onClick={()=>{
+props.acceptOrder(props.information.order_id);
+}}
+>
+Accept Order
+</Button>
+}
 
 </div>
 
@@ -293,11 +331,13 @@ maxWidth:"60%"
 
 style={{
 
-padding:"15px",
+padding:"15px 20px",
 
 borderTop:"1px solid #eee",
 
 display:"flex",
+
+alignItems:"flex-end",
 
 gap:"10px"
 
@@ -313,6 +353,20 @@ value={messageText}
 onChange={(e)=>setMessageText(e.target.value)}
 
 autoSize={{minRows:1,maxRows:4}}
+
+style={{flex:1}}
+
+onPressEnter={(e)=>{
+
+if(!e.shiftKey){
+
+e.preventDefault();
+
+handleSend();
+
+}
+
+}}
 
 />
 

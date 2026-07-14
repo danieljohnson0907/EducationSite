@@ -1,29 +1,35 @@
-import React from 'react';
+import React, { lazy, Suspense } from 'react';
 import 'antd/dist/antd.css'; //All logics are stared from this code. need to import the antd css in this file.
 // import 'antd/dist/antd.dark.css';
 import jwt_decode from 'jwt-decode'
 import { Provider } from 'react-redux'
 import { BrowserRouter as Router, Switch, Route } from 'react-router-dom'
-import { Layout } from 'antd';
+import { Layout, Spin } from 'antd';
 import Header from './pages/layouts/header';
 import Footer from './pages/layouts/footer';
 import { setAuthToken } from './utils/setAuthToken';
 import store from './redux/store';
 import { setCurrentUser, logoutUser } from './redux/actions/authActions';
-import Home from './pages/home';
-import AboutUs from './pages/aboutus';
-import Blogs from './pages/blogs';
 import "./pages/layouts/styles.css";
 import ChatWidget from './components/ChatWidget';
-import Experts from './pages/experts';
-import Profile from './pages/profile';
-import Users from './pages/admin/users';
-import Message from './pages/message';
-import Advice from './pages/admin/advice';
-import AdminExpert from './pages/admin/expert';
-import AdminUser from './pages/admin/users';
-import orders from './pages/admin/orders';
 import Container from './pages/layouts/container';
+
+const Home = lazy(() => import('./pages/home'));
+const AboutUs = lazy(() => import('./pages/aboutus'));
+const Blogs = lazy(() => import('./pages/blogs'));
+const Experts = lazy(() => import('./pages/experts'));
+const Profile = lazy(() => import('./pages/profile'));
+const Users = lazy(() => import('./pages/admin/users'));
+const Message = lazy(() => import('./pages/message'));
+const Advice = lazy(() => import('./pages/admin/advice'));
+const AdminExpert = lazy(() => import('./pages/admin/expert'));
+const orders = lazy(() => import('./pages/admin/orders'));
+
+const RouteFallback = () => (
+    <div style={{ display: 'flex', justifyContent: 'center', alignItems: 'center', minHeight: '300px' }}>
+        <Spin size="large" />
+    </div>
+);
 
 if (localStorage.jwtToken) {
     setAuthToken(localStorage.jwtToken);
@@ -54,39 +60,41 @@ function App() {
                     
                     <Container
                     >
-                        <Switch>
-                            <Route exact path="/" component={Home} />
-                        </Switch>
-                        <Switch>
-                            <Route exact path="/aboutus" component={AboutUs} />
-                        </Switch>
-                        <Switch>
-                            <Route exact path="/blogs" component={Blogs} />
-                        </Switch>
-                        <Switch>
-                            <Route exact path="/experts" component={Experts} />
-                        </Switch>
-                        <Switch>
-                            <Route exact path="/profile" component={Profile} />
-                        </Switch>
-                        <Switch>
-                            <Route exact path="/admin/users" component={Users} />
-                        </Switch>
-                        <Switch>
-                            <Route exact path="/messages" component={Message} />
-                        </Switch>
-                        <Switch>
-                            <Route exact path="/admin/advice" component={Advice} />
-                        </Switch>
-                        <Switch>
-                            <Route exact path="/admin/expert" component={AdminExpert} />
-                        </Switch>
-                        <Switch>
-                            <Route exact path="/admin/user" component={AdminUser} />
-                        </Switch>
-                        <Switch>
-                            <Route exact path="/admin/orders" component={orders} />
-                        </Switch>
+                        <Suspense fallback={<RouteFallback />}>
+                            <Switch>
+                                <Route exact path="/" component={Home} />
+                            </Switch>
+                            <Switch>
+                                <Route exact path="/aboutus" component={AboutUs} />
+                            </Switch>
+                            <Switch>
+                                <Route exact path="/blogs" component={Blogs} />
+                            </Switch>
+                            <Switch>
+                                <Route exact path="/experts" component={Experts} />
+                            </Switch>
+                            <Switch>
+                                <Route exact path="/profile" component={Profile} />
+                            </Switch>
+                            <Switch>
+                                <Route exact path="/admin/users" component={Users} />
+                            </Switch>
+                            <Switch>
+                                <Route exact path="/messages" component={Message} />
+                            </Switch>
+                            <Switch>
+                                <Route exact path="/admin/advice" component={Advice} />
+                            </Switch>
+                            <Switch>
+                                <Route exact path="/admin/expert" component={AdminExpert} />
+                            </Switch>
+                            <Switch>
+                                <Route exact path="/admin/user" component={Users} />
+                            </Switch>
+                            <Switch>
+                                <Route exact path="/admin/orders" component={orders} />
+                            </Switch>
+                        </Suspense>
                     </Container>
                     <div>
                         <Footer />
