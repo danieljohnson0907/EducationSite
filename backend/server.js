@@ -5,8 +5,11 @@ const fs = require("fs");
 const cors = require("cors");
 const passport = require("passport");
 const bodyParser = require("body-parser");
+const compression = require("compression");
 
 const app = express();
+
+app.use(compression());
 
 const CONST = require("./src/config/const");
 const { DB_URL, DB_NAME, PORT } = CONST;

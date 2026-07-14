@@ -29,7 +29,7 @@ exports.getExpertInfo = async function(user) {
         accepted: 0
     };
 
-    const blog = await Blogs.findOne({_id: user.blog_id});
+    const blog = await Blog.findOne({_id: user.blog_id}).catch(() => null);
     for(let order_id in order_ids) {
         const order = await Order.findOne({_id: order_id}).catch(() => null);
         if(!order) continue;
@@ -45,7 +45,7 @@ exports.getExpertInfo = async function(user) {
         accepting: order_cnt.accepting,
         accepted: order_cnt.accepted,
         id: user._id,
-        blog_name: blog.title,
+        blog_name: blog ? blog.title : "",
         avatar_extension: user.avatar_extension
     }
 }
