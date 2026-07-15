@@ -3,7 +3,7 @@ import 'antd/dist/antd.css'; //All logics are stared from this code. need to imp
 // import 'antd/dist/antd.dark.css';
 import jwt_decode from 'jwt-decode'
 import { Provider } from 'react-redux'
-import { BrowserRouter as Router, Switch, Route } from 'react-router-dom'
+import { BrowserRouter as Router, Switch, Route, Redirect } from 'react-router-dom'
 import { Layout, Spin } from 'antd';
 import Header from './pages/layouts/header';
 import Footer from './pages/layouts/footer';
@@ -62,7 +62,7 @@ function App() {
                     >
                         <Suspense fallback={<RouteFallback />}>
                             <Switch>
-                                <Route exact path="/" component={Home} />
+                                <Route exact path="/" render={() => <Redirect to="/take-my-exam" />} />
                             </Switch>
                             <Switch>
                                 <Route exact path="/take-my-exam" component={Home} />
