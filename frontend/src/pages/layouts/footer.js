@@ -25,7 +25,7 @@ const navLinks = [
 
 const contactInfo = [
   { icon: <MailOutlined />, text: "Telegram: @high_sky_future" },
-  { icon: <MailOutlined />, text: "Teams: Stanly William" }, 
+  { icon: <MailOutlined />, text: "Teams: stanlywilliam797@outlook.com" }, 
   // { icon: <PhoneOutlined />, text: "+44 78 2757 6965" },
   {
     icon: <EnvironmentOutlined />,
