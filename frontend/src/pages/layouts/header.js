@@ -19,7 +19,7 @@ function Header(props) {
     useEffect(() => {
         let page_path = localStorage.getItem('page_path');
         if (!page_path) {
-            props.setPagePath('/');
+            props.setPagePath('/take-my-exam');
         } else {
             page_path = window.location.pathname;
             props.setPagePath(page_path);
@@ -81,7 +81,7 @@ function Header(props) {
                 <div className="gm-header__inner">
 
                     {/* ── Logo only (no text) ── */}
-                    <Link to="/" className="gm-header__logo" onClick={() => props.setPagePath('/')}>
+                    <Link to="/take-my-exam" className="gm-header__logo" onClick={() => props.setPagePath('/take-my-exam')}>
                         <Image
                             src="/assets/img/logo.png"
                             preview={false}

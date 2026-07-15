@@ -12,6 +12,7 @@ export default function Slide() {
 
                 <h1 className="gm-hero__title">
                     Pass Your Exams<br />
+                    "Take My Exam"<br/>
                     With <span>Confidence</span>
                 </h1>
 

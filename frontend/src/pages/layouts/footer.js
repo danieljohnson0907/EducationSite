@@ -16,7 +16,7 @@ const TEXT = "#9ca3af";
 const WHITE = "#ffffff";
 
 const navLinks = [
-  { label: "Home", href: "/" },
+  { label: "Home", href: "/take-my-exam" },
   { label: "About Us", href: "/about" },
   { label: "Blogs", href: "/blogs" },
   { label: "Experts", href: "/experts" },

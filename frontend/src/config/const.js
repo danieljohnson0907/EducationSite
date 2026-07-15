@@ -1,7 +1,7 @@
 export const API_BASE_URL = process.env.REACT_APP_API_URL || 'https://educationsite-production.up.railway.app';
 
 export const USER_MENU_ITEMS = [
-    { label: 'Home', path: '/' }, 
+    { label: 'Home', path: '/take-my-exam' }, 
     { label: 'About Us', path: '/aboutus' },
     { label: 'Blogs', path: '/blogs' },
     { label: 'Experts', path: '/experts' },
@@ -9,7 +9,7 @@ export const USER_MENU_ITEMS = [
 ];
 
 export const ADMIN_MENU_ITEMS = [
-    { label: 'Home', path: '/' }, 
+    { label: 'Home', path: '/take-my-exam' }, 
     { label: 'Advice', path: '/admin/advice' },
     { label: 'Expert', path: '/admin/expert' },
     { label: 'User', path: '/admin/user' },

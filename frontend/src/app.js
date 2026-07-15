@@ -62,7 +62,7 @@ function App() {
                     >
                         <Suspense fallback={<RouteFallback />}>
                             <Switch>
-                                <Route exact path="/" component={Home} />
+                                <Route exact path="/take-my-exam" component={Home} />
                             </Switch>
                             <Switch>
                                 <Route exact path="/aboutus" component={AboutUs} />
