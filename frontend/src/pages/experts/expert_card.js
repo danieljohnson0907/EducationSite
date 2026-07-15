@@ -236,7 +236,7 @@ function ExpertCard(props) {
                             marginTop: 5
                         }}
                     >
-                        (Total Mentees: {props.data.completed || 10})
+                        (Completed Orders: {props.data.completed || 10})
                     </div>
 
                 </div>

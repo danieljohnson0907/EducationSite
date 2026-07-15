@@ -16,6 +16,9 @@ function Home(props) {
 
     return (
         <div>
+            {/* <h1>
+                Online Exam Bypass Platform for Students
+            </h1> */}
             {/* Hero */}
             <Slide />
 
